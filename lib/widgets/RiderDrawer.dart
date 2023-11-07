@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
 import 'package:rushrider/rider/home_screen.dart';
+import 'package:rushrider/rider/sign_in_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RiderDrawer extends StatelessWidget {
   const RiderDrawer({super.key});
@@ -74,13 +76,21 @@ class RiderDrawer extends StatelessWidget {
               margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: OutlinedButton(
                 onPressed: () async {
-                  // final prefs = await SharedPreferences.getInstance();
+                  // sign user out
+                  final prefs = await SharedPreferences.getInstance();
 
-                  // prefs.remove('userType');
-                  // prefs.remove('email');
+                  final signOut = await prefs.remove('rush-rider');
 
-                  // Navigator.of(context)
-                  //     .pushReplacementNamed(InsurerVendorScreen.routeName);
+                  if (signOut) {
+                    Navigator.of(context)
+                        .pushReplacementNamed(SignInScreen.routeName);
+
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignInScreen()),
+                      (route) => false,
+                    );
+                  }
                 },
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

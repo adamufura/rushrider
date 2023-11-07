@@ -2,6 +2,7 @@ import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart
 import 'package:flutter/material.dart';
 import 'package:rushrider/auth_screen.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RushRiderSplashScreen extends StatefulWidget {
   const RushRiderSplashScreen({super.key});

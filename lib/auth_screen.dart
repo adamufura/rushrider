@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
+import 'package:rushrider/rider/home_screen.dart';
 import 'package:rushrider/rider/sign_in_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthScreen extends StatefulWidget {
   const AuthScreen({super.key});
@@ -10,7 +14,28 @@ class AuthScreen extends StatefulWidget {
   State<AuthScreen> createState() => _AuthScreenState();
 }
 
+Future isLoggedIn() async {
+  final prefs = await SharedPreferences.getInstance();
+  final String? response = prefs.getString('rush-rider');
+  return response;
+}
+
 class _AuthScreenState extends State<AuthScreen> {
+  @override
+  void initState() {
+    isLoggedIn().then((value) {
+      if (value.toString().isNotEmpty && value != null) {
+        Map<dynamic, dynamic> result = jsonDecode(value);
+        if (result['type'] == 'rider') {
+          if (result.containsKey('email') && result.containsKey('password')) {
+            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          }
+        }
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);

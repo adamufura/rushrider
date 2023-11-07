@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:rushrider/api/sign_in.dart';
 import 'package:rushrider/auth_screen.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
 import 'package:rushrider/rider/home_screen.dart';
 import 'package:rushrider/rider/sign_up_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInScreen extends StatefulWidget {
   static const routeName = "/signInScreen";
@@ -64,10 +69,13 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: emailTextController,
                     decoration:
                         const InputDecoration(labelText: 'Email Address'),
                   ),
                   TextFormField(
+                      controller: passwordTextController,
+                      obscureText: true,
                       decoration: const InputDecoration(labelText: 'Password')),
                   TextButton(
                     onPressed: () {},
@@ -110,11 +118,48 @@ class _SignInScreenState extends State<SignInScreen> {
                   setState(() {
                     isLoading = true;
                   });
-                  Navigator.of(context).pushNamed(HomeScreen.routeName);
+                  // save
+                  Response? res = await signIn(
+                    email: emailTextController.text.trim(),
+                    password: passwordTextController.text.trim(),
+                  );
+                  if (res!.statusCode == 200) {
+                    Map<dynamic, dynamic> result = jsonDecode(res.body);
+                    if (result.containsKey('error')) {
+                      // show snackbar
+                      SnackBar snackBar = SnackBar(
+                        content: Text(result['error']),
+                      );
+                      setState(() {
+                        isLoading = false;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    } else {
+                      if (result.containsKey('status')) {
+                        // create user session
+                        final prefs = await SharedPreferences.getInstance();
+
+                        await prefs.setString(
+                          'rush-rider',
+                          jsonEncode({
+                            'type': 'rider',
+                            'email': result['email'],
+                            'password': result['password']
+                          }),
+                        );
+
+                        setState(() {
+                          isLoading = false;
+                        });
+                        Navigator.of(context)
+                            .pushReplacementNamed(HomeScreen.routeName);
+                      }
+                    }
+                  }
                 },
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: const [
+                    children: [
                       Text(
                         'Sign In',
                         style: TextStyle(

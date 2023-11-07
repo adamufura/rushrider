@@ -1,6 +1,9 @@
 import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:rushrider/api/user.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
+import 'package:rushrider/providers/user_provider.dart';
 import 'package:rushrider/rider/all_deliveries.dart';
 import 'package:rushrider/rider/order_info_screen.dart';
 import 'package:rushrider/rider/requests_screen.dart';
@@ -22,7 +25,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<UserProvider>(context, listen: false).getLoggedInUser();
     SizeConfig().init(context);
+
+    final user = Provider.of<UserProvider>(context, listen: false).loggedInUser;
 
     List transactions = [
       Card(
@@ -57,10 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 20,
               )),
         ),
-        title: const ListTile(
+        title: ListTile(
           title: Text('Hello,',
               style: TextStyle(fontSize: 16, color: Colors.white)),
-          subtitle: Text('Adamu Fura ${Emojis.wavingHand}',
+          subtitle: Text("${user['fullname']} ${Emojis.wavingHand}",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
