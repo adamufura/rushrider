@@ -9,6 +9,7 @@ import 'package:rushrider/customer/track_order_screen.dart';
 import 'package:rushrider/providers/user_provider.dart';
 import 'package:rushrider/rider/all_deliveries.dart';
 import 'package:rushrider/rider/home_screen.dart';
+import 'package:rushrider/rider/iniate_delivery.dart';
 import 'package:rushrider/rider/order_info_screen.dart';
 import 'package:rushrider/rider/requests_screen.dart';
 import 'package:rushrider/rider/sign_in_screen.dart';
@@ -62,6 +63,7 @@ class RushRider extends StatelessWidget {
           RequestScreen.routeName: (ctx) => const RequestScreen(),
           OrderInfoScreen.routeName: (ctx) => const OrderInfoScreen(),
           AllDeliveries.routeName: (ctx) => const AllDeliveries(),
+          InitiateDelivery.routeName: (ctx) => const InitiateDelivery(),
           // Customer
           TrackOrderScreen.routeName: (ctx) => const TrackOrderScreen()
         },

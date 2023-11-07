@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rushrider/api/order.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
+import 'package:rushrider/rider/iniate_delivery.dart';
 import 'package:rushrider/widgets/RiderDrawer.dart';
 import 'package:rushrider/widgets/app_bar.dart';
 
@@ -217,7 +218,13 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                             padding: const EdgeInsets.all(16.0),
                             child: Container(
                               child: OutlinedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed(
+                                      InitiateDelivery.routeName,
+                                      arguments: {
+                                        'orderID': orderID,
+                                      });
+                                },
                                 child: Text('Iniate Delivery'),
                               ),
                             ),

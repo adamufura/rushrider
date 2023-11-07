@@ -65,3 +65,21 @@ Future setOrderStatus(int id, String status) async {
     print(e);
   }
 }
+
+Future setOrderLocation(int id, String location) async {
+  String urlPost = Init.urlInit + "rider/orders.php";
+  try {
+    var res = await http.post(Uri.parse(urlPost), headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    }, body: {
+      "id": id.toString(),
+      "location": location,
+      "setOrderLocation": 'true',
+    });
+
+    print(res.body);
+    return json.decode(res.body);
+  } catch (e) {
+    print(e);
+  }
+}
