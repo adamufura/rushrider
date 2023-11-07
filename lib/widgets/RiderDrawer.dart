@@ -1,14 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
+import 'package:rushrider/providers/user_provider.dart';
 import 'package:rushrider/rider/home_screen.dart';
 import 'package:rushrider/rider/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class RiderDrawer extends StatelessWidget {
+class RiderDrawer extends StatefulWidget {
   const RiderDrawer({super.key});
 
   @override
+  State<RiderDrawer> createState() => _RiderDrawerState();
+}
+
+class _RiderDrawerState extends State<RiderDrawer> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    Provider.of<UserProvider>(context, listen: false).getLoggedInUser();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context);
+
     return Drawer(
       width: SizeConfig.safeBlockHorizontal * 60,
       child: SafeArea(
@@ -25,12 +41,12 @@ class RiderDrawer extends StatelessWidget {
                       width: 60,
                     )),
                 ListTile(
-                  title: const Text(
-                    'Mike Dane',
+                  title: Text(
+                    "${user.loading ? '' : user.loggedInUser['fullname']}",
                     textAlign: TextAlign.center,
                   ),
-                  subtitle: const Text(
-                    'mikedane@gmail.com',
+                  subtitle: Text(
+                    "${user.loading ? '' : user.loggedInUser['email']}",
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 14),
                   ),

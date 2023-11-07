@@ -24,11 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
+    // TODO: implement initState
     Provider.of<UserProvider>(context, listen: false).getLoggedInUser();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    final user = Provider.of<UserProvider>(context, listen: false).loggedInUser;
+    final user = Provider.of<UserProvider>(context);
 
     List transactions = [
       Card(
@@ -66,7 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
         title: ListTile(
           title: Text('Hello,',
               style: TextStyle(fontSize: 16, color: Colors.white)),
-          subtitle: Text("${user['fullname']} ${Emojis.wavingHand}",
+          subtitle: Text(
+              "${user.loading ? '' : user.loggedInUser['fullname']} ${Emojis.wavingHand}",
               style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
