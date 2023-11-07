@@ -1,6 +1,7 @@
 import 'package:emojis/emojis.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:rushrider/api/order.dart';
 import 'package:rushrider/api/user.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
 import 'package:rushrider/providers/user_provider.dart';
@@ -35,25 +36,6 @@ class _HomeScreenState extends State<HomeScreen> {
     SizeConfig().init(context);
 
     final user = Provider.of<UserProvider>(context);
-
-    List transactions = [
-      Card(
-        child: ListTile(
-            leading: CircleAvatar(
-              child: Text('#1'),
-            ),
-            title: Text(
-              'Deliver Samosa',
-              style: TextStyle(fontWeight: FontWeight.w500),
-            ),
-            subtitle: Text('Sardauna Estate'),
-            trailing: OutlinedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(OrderInfoScreen.routeName);
-                },
-                child: Text('View'))),
-      ),
-    ];
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -127,14 +109,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             Padding(
                               padding: const EdgeInsets.only(top: 10, left: 10),
                               child: Text(
-                                'Your total balance',
+                                'Total Orders',
                                 style: TextStyle(color: Colors.grey),
                               ),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'N20,000.00',
+                                '1+ Orders',
                                 style: TextStyle(
                                   color: Theme.of(context).primaryColor,
                                   fontSize: 40,
@@ -213,10 +195,55 @@ class _HomeScreenState extends State<HomeScreen> {
                   thickness: 3,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: transactions.length,
-                      itemBuilder: (context, index) => transactions[index]),
+                  child: FutureBuilder(
+                    future: getAllRiderPENDINGOrders('shehu@gmail.com'),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return const Center(
+                            child: Text('Something went wrong'));
+                      }
+
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+
+                      if (snapshot.data['size'] < 1) {
+                        return const Center(
+                          child: Text('No New Order Request'),
+                        );
+                      }
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: snapshot.data['size'],
+                        itemBuilder: (context, index) => Card(
+                          child: ListTile(
+                              leading: CircleAvatar(
+                                child: Text("#" +
+                                    snapshot.data['data'][index]['id']
+                                        .toString()),
+                              ),
+                              title: Text(
+                                snapshot.data['data'][index]['title'],
+                                style: TextStyle(fontWeight: FontWeight.w500),
+                              ),
+                              subtitle: Text(
+                                  "Destination: ${snapshot.data['data'][index]['customer_address']}"),
+                              trailing: OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                        OrderInfoScreen.routeName,
+                                        arguments: {
+                                          'orderID': snapshot.data['data']
+                                              [index]['id'],
+                                        });
+                                  },
+                                  child: Text('View'))),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ],
             ),
