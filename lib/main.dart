@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rushrider/RushRiderSplashScreen.dart';
+import 'package:rushrider/configs/palette.dart';
+import 'package:rushrider/customer/track_order_screen.dart';
+import 'package:rushrider/rider/all_deliveries.dart';
+import 'package:rushrider/rider/home_screen.dart';
+import 'package:rushrider/rider/order_info_screen.dart';
+import 'package:rushrider/rider/requests_screen.dart';
+import 'package:rushrider/rider/sign_in_screen.dart';
+import 'package:rushrider/rider/sign_up_screen.dart';
 
 void main(List<String> args) {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -16,15 +25,21 @@ class RushRider extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.deepPurple),
+      theme: ThemeData(primarySwatch: Palette.rushRiderTheme),
       title: "RUSH RIDER",
-      home: Container(),
+      home: const RushRiderSplashScreen(),
       routes: {
         // App
 
         // Rider
-
-        // User
+        SignInScreen.routeName: (ctx) => const SignInScreen(),
+        SignUpScreen.routeName: (ctx) => const SignUpScreen(),
+        HomeScreen.routeName: (ctx) => const HomeScreen(),
+        RequestScreen.routeName: (ctx) => const RequestScreen(),
+        OrderInfoScreen.routeName: (ctx) => const OrderInfoScreen(),
+        AllDeliveries.routeName: (ctx) => const AllDeliveries(),
+        // Customer
+        TrackOrderScreen.routeName: (ctx) => const TrackOrderScreen()
       },
     );
   }
