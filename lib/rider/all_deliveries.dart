@@ -85,7 +85,7 @@ class _AllDeliveriesState extends State<AllDeliveries> {
           ),
           Expanded(
             child: FutureBuilder(
-              future: getAllRiderOrders('shehu@gmail.com'),
+              future: getAllRiderOrders(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return const Center(child: Text('Something went wrong'));

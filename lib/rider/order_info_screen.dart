@@ -145,73 +145,93 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                     ),
                   ),
                 ),
-                Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () {
-                            // Navigator.of(context)
-                            //     .pushNamed(InsurerHomeScreen.routeName);
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'Accept',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w300),
+                snapshot.data['data']['status'] == 'PENDING'
+                    ? Container(
+                        width: double.infinity,
+                        padding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () async {
+                                await setOrderStatus(orderID, 'ACCEPTED');
+                              },
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      'Accept',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Icon(Icons.mark_chat_read_outlined,
+                                        color: Colors.white)
+                                  ]),
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Theme.of(context).primaryColor,
+                                padding: const EdgeInsets.all(16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                SizedBox(width: 5),
-                                Icon(Icons.mark_chat_read_outlined,
-                                    color: Colors.white)
-                              ]),
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            padding: const EdgeInsets.all(16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                    width: 1.5,
+                                    color: Theme.of(context).primaryColor),
+                              ),
                             ),
-                            side: BorderSide(
-                                width: 1.5,
-                                color: Theme.of(context).primaryColor),
-                          ),
-                        ),
-                        OutlinedButton(
-                          onPressed: () {
-                            // Navigator.of(context)
-                            //     .pushNamed(InsurerHomeScreen.routeName);
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'Decline',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w300),
+                            OutlinedButton(
+                              onPressed: () async {
+                                await setOrderStatus(orderID, 'DECLINED');
+                              },
+                              child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    Text(
+                                      'Decline',
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                    SizedBox(width: 5),
+                                    Icon(Icons.cancel, color: Colors.white)
+                                  ]),
+                              style: OutlinedButton.styleFrom(
+                                backgroundColor: Theme.of(context).errorColor,
+                                padding: const EdgeInsets.all(16),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
                                 ),
-                                SizedBox(width: 5),
-                                Icon(Icons.cancel, color: Colors.white)
-                              ]),
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Theme.of(context).errorColor,
-                            padding: const EdgeInsets.all(16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                                side: BorderSide(
+                                    width: 1.5,
+                                    color: Theme.of(context).errorColor),
+                              ),
                             ),
-                            side: BorderSide(
-                                width: 1.5,
-                                color: Theme.of(context).errorColor),
+                          ],
+                        ))
+                    : snapshot.data['data']['status'] == 'ACCEPTED'
+                        ? Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Container(
+                              child: OutlinedButton(
+                                onPressed: () {},
+                                child: Text('Iniate Delivery'),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                'ORDER WAS DECLINED',
+                                style: TextStyle(
+                                    color: Theme.of(context).errorColor),
+                              ),
+                            ),
                           ),
-                        ),
-                      ],
-                    )),
               ],
             );
           }),
