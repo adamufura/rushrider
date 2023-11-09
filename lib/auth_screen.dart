@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
+import 'package:rushrider/customer/track_order_screen.dart';
 import 'package:rushrider/rider/home_screen.dart';
 import 'package:rushrider/rider/sign_in_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -123,8 +124,8 @@ class _AuthScreenState extends State<AuthScreen> {
                   margin: const EdgeInsets.symmetric(vertical: 15),
                   child: OutlinedButton(
                     onPressed: () {
-                      // Navigator.of(context)
-                      //     .pushNamed(VendorSignInUpScreen.routeName);
+                      Navigator.of(context)
+                          .pushNamed(TrackOrderScreen.routeName);
                     },
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

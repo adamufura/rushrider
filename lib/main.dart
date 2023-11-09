@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:rushrider/RushRiderSplashScreen.dart';
 import 'package:rushrider/configs/palette.dart';
+import 'package:rushrider/customer/customer_status_screen.dart';
 import 'package:rushrider/customer/track_order_screen.dart';
 import 'package:rushrider/providers/user_provider.dart';
 import 'package:rushrider/rider/all_deliveries.dart';
@@ -65,7 +66,8 @@ class RushRider extends StatelessWidget {
           AllDeliveries.routeName: (ctx) => const AllDeliveries(),
           InitiateDelivery.routeName: (ctx) => const InitiateDelivery(),
           // Customer
-          TrackOrderScreen.routeName: (ctx) => const TrackOrderScreen()
+          TrackOrderScreen.routeName: (ctx) => const TrackOrderScreen(),
+          CustomerStatusScreen.routeName: (ctx) => const CustomerStatusScreen(),
         },
       ),
     );
