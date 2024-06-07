@@ -1,0 +1,7 @@
+.footerLinks li {
+  margin: 18px 0px;
+}
+
+.footerLinks li a:hover {
+  margin-left: 5px;
+}
