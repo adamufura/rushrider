@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:rushrider/api/order.dart';
 import 'package:rushrider/api/user.dart';
 import 'package:rushrider/configs/SizeConfig.dart';
+import 'package:rushrider/configs/palette.dart';
 import 'package:rushrider/providers/user_provider.dart';
 import 'package:rushrider/rider/all_deliveries.dart';
 import 'package:rushrider/rider/order_info_screen.dart';
@@ -41,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
       key: _scaffoldKey,
       appBar: AppBar(
+        backgroundColor: Palette.rushRiderTheme,
         elevation: 0,
         leading: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -69,7 +71,11 @@ class _HomeScreenState extends State<HomeScreen> {
               onPressed: () {
                 _scaffoldKey.currentState?.openEndDrawer();
               },
-              icon: const Icon(UniconsLine.align_center, size: 28),
+              icon: const Icon(
+                UniconsLine.align_center,
+                size: 28,
+                color: Colors.white,
+              ),
             ),
           )
         ],

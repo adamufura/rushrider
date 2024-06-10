@@ -30,14 +30,14 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
               );
             }
 
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Order Information'),
-                ),
-                Expanded(
-                  child: Container(
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Order Information'),
+                  ),
+                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -67,10 +67,8 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
                       ),
                     ),
                   ),
-                ),
-                Text('Rider Information'),
-                Expanded(
-                  child: Container(
+                  Text('Rider Information'),
+                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -101,10 +99,8 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
                       ),
                     ),
                   ),
-                ),
-                Text('Business Information'),
-                Expanded(
-                  child: Container(
+                  Text('Business Information'),
+                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -132,45 +128,46 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
                       ),
                     ),
                   ),
-                ),
-                Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        OutlinedButton(
-                          onPressed: () async {
-                            await setOrderStatus(1, 'DELIVERED');
-                          },
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
-                                  'ORDER DELIVERED',
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w300),
-                                ),
-                                SizedBox(width: 5),
-                                Icon(Icons.accessible_sharp,
-                                    color: Colors.white)
-                              ]),
-                          style: OutlinedButton.styleFrom(
-                            backgroundColor: Theme.of(context).primaryColor,
-                            padding: const EdgeInsets.all(16),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10.0),
+                  Container(
+                      width: double.infinity,
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          OutlinedButton(
+                            onPressed: () async {
+                              await setOrderStatus(1, 'DELIVERED');
+                            },
+                            child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'ORDER DELIVERED',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w300),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(Icons.accessible_sharp,
+                                      color: Colors.white)
+                                ]),
+                            style: OutlinedButton.styleFrom(
+                              backgroundColor: Theme.of(context).primaryColor,
+                              padding: const EdgeInsets.all(16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              side: BorderSide(
+                                  width: 1.5,
+                                  color: Theme.of(context).primaryColor),
                             ),
-                            side: BorderSide(
-                                width: 1.5,
-                                color: Theme.of(context).primaryColor),
                           ),
-                        ),
-                      ],
-                    ))
-              ],
+                        ],
+                      ))
+                ],
+              ),
             );
           }),
     );

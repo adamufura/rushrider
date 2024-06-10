@@ -40,14 +40,14 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
               );
             }
 
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Order Information'),
-                ),
-                Expanded(
-                  child: Container(
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text('Order Information'),
+                  ),
+                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -77,10 +77,8 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                       ),
                     ),
                   ),
-                ),
-                Text('Customer Information'),
-                Expanded(
-                  child: Container(
+                  Text('Customer Information'),
+                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -114,10 +112,8 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                       ),
                     ),
                   ),
-                ),
-                Text('Business Information'),
-                Expanded(
-                  child: Container(
+                  Text('Business Information'),
+                  Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -145,101 +141,104 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
                       ),
                     ),
                   ),
-                ),
-                snapshot.data['data']['status'] == 'PENDING'
-                    ? Container(
-                        width: double.infinity,
-                        padding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            OutlinedButton(
-                              onPressed: () async {
-                                await setOrderStatus(orderID, 'ACCEPTED');
-                              },
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      'Accept',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Icon(Icons.mark_chat_read_outlined,
-                                        color: Colors.white)
-                                  ]),
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Theme.of(context).primaryColor,
-                                padding: const EdgeInsets.all(16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                side: BorderSide(
-                                    width: 1.5,
-                                    color: Theme.of(context).primaryColor),
-                              ),
-                            ),
-                            OutlinedButton(
-                              onPressed: () async {
-                                await setOrderStatus(orderID, 'DECLINED');
-                              },
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: const [
-                                    Text(
-                                      'Decline',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.w300),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Icon(Icons.cancel, color: Colors.white)
-                                  ]),
-                              style: OutlinedButton.styleFrom(
-                                backgroundColor: Theme.of(context).errorColor,
-                                padding: const EdgeInsets.all(16),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                ),
-                                side: BorderSide(
-                                    width: 1.5,
-                                    color: Theme.of(context).errorColor),
-                              ),
-                            ),
-                          ],
-                        ))
-                    : snapshot.data['data']['status'] == 'ACCEPTED'
-                        ? Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Container(
-                              child: OutlinedButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed(
-                                      InitiateDelivery.routeName,
-                                      arguments: {
-                                        'orderID': orderID,
-                                      });
+                  snapshot.data['data']['status'] == 'PENDING'
+                      ? Container(
+                          width: double.infinity,
+                          padding:
+                              EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              OutlinedButton(
+                                onPressed: () async {
+                                  await setOrderStatus(orderID, 'ACCEPTED');
+                                  setState(() {});
                                 },
-                                child: Text('Iniate Delivery'),
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        'Accept',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Icon(Icons.mark_chat_read_outlined,
+                                          color: Colors.white)
+                                    ]),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor:
+                                      Theme.of(context).primaryColor,
+                                  padding: const EdgeInsets.all(16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  side: BorderSide(
+                                      width: 1.5,
+                                      color: Theme.of(context).primaryColor),
+                                ),
+                              ),
+                              OutlinedButton(
+                                onPressed: () async {
+                                  await setOrderStatus(orderID, 'DECLINED');
+                                  setState(() {});
+                                },
+                                child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: const [
+                                      Text(
+                                        'Decline',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w300),
+                                      ),
+                                      SizedBox(width: 5),
+                                      Icon(Icons.cancel, color: Colors.white)
+                                    ]),
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Theme.of(context).errorColor,
+                                  padding: const EdgeInsets.all(16),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                  ),
+                                  side: BorderSide(
+                                      width: 1.5,
+                                      color: Theme.of(context).errorColor),
+                                ),
+                              ),
+                            ],
+                          ))
+                      : snapshot.data['data']['status'] == 'ACCEPTED'
+                          ? Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Container(
+                                child: OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed(
+                                        InitiateDelivery.routeName,
+                                        arguments: {
+                                          'orderID': orderID,
+                                        });
+                                  },
+                                  child: Text('Iniate Delivery'),
+                                ),
+                              ),
+                            )
+                          : Container(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  'ORDER WAS DECLINED',
+                                  style: TextStyle(
+                                      color: Theme.of(context).errorColor),
+                                ),
                               ),
                             ),
-                          )
-                        : Container(
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'ORDER WAS DECLINED',
-                                style: TextStyle(
-                                    color: Theme.of(context).errorColor),
-                              ),
-                            ),
-                          ),
-              ],
+                ],
+              ),
             );
           }),
     );

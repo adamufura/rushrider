@@ -51,7 +51,9 @@ class RushRider extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        theme: ThemeData(primarySwatch: Palette.rushRiderTheme),
+        theme: ThemeData(
+          primaryColor: Palette.rushRiderTheme,
+        ),
         title: "RUSH RIDER",
         home: const RushRiderSplashScreen(),
         routes: {
