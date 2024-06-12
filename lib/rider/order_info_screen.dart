@@ -23,6 +23,8 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
         <String, dynamic>{}) as Map;
     int orderID = arguments['orderID'];
 
+    print(orderID);
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Order Information'),
@@ -38,6 +40,11 @@ class _OrderInfoScreenState extends State<OrderInfoScreen> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            }
+
+            final orderData = snapshot.data;
+            if (orderData == null || orderData['data'] == null) {
+              return const Center(child: Text('No data available'));
             }
 
             return SingleChildScrollView(

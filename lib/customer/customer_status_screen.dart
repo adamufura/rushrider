@@ -13,12 +13,16 @@ class CustomerStatusScreen extends StatefulWidget {
 class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    String code = arguments['tracking_code'];
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Delivery Status"),
       ),
       body: FutureBuilder(
-          future: getRiderOrderInfo(1),
+          future: getRiderOrderInfoUsingCode(code),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return const Center(child: Text('Something went wrong'));
@@ -28,6 +32,11 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
               return const Center(
                 child: CircularProgressIndicator(),
               );
+            }
+
+            final orderData = snapshot.data;
+            if (orderData == null || orderData['data'] == null) {
+              return const Center(child: Text('No data available'));
             }
 
             return SingleChildScrollView(
@@ -82,11 +91,6 @@ class _CustomerStatusScreenState extends State<CustomerStatusScreen> {
                           CardInfo(
                             title: "Rider Name",
                             content: "${snapshot.data['data']['fullname']}",
-                          ),
-                          Divider(thickness: 1.5),
-                          CardInfo(
-                            title: "Customer Phone",
-                            content: "${snapshot.data['data']['phonenumber']}",
                           ),
                           Divider(thickness: 1.5),
                           CardInfo(

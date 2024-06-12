@@ -126,7 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   setState(() {
                     isLoading = true;
                   });
-                  // save
+                  // Save
                   Response? res = await signUp(
                     fullname: fullnameTextController.text.trim(),
                     email: emailTextController.text.trim(),
@@ -135,28 +135,30 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   );
 
                   if (res != null && res.statusCode == 200) {
-                    Map<dynamic, dynamic> result = jsonDecode(res.body);
-                    if (result.containsKey('error')) {
-                      // show snackbar
-                      SnackBar snackBar = SnackBar(
-                        content: Text(result['error']),
-                      );
-                      setState(() {
-                        isLoading = false;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                    } else {
-                      if (result.containsKey('status')) {
-                        // create user session
+                    try {
+                      print(res.body);
+                      Map<String, dynamic> result = jsonDecode(res.body);
+                      print(result);
+                      if (result.containsKey('error')) {
+                        // Show snackbar
+                        SnackBar snackBar = SnackBar(
+                          content: Text(result['error']),
+                        );
+                        setState(() {
+                          isLoading = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      } else if (result.containsKey('status') &&
+                          result['status'] == 'success') {
+                        // Create user session
                         final SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-
                         await prefs.setString(
                           'rush-rider',
                           jsonEncode({
                             'type': 'rider',
                             'email': result['email'],
-                            'password': result['password']
+                            'password': result['password'],
                           }),
                         );
 
@@ -165,8 +167,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         });
                         Navigator.of(context)
                             .pushReplacementNamed(HomeScreen.routeName);
+                      } else {
+                        // Handle unexpected response structure
+                        SnackBar snackBar = SnackBar(
+                          content: Text('Unexpected response from server.'),
+                        );
+                        setState(() {
+                          isLoading = false;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
+                    } catch (e) {
+                      // Handle JSON decoding errors
+                      SnackBar snackBar = SnackBar(
+                        content: Text('Error decoding response: $e'),
+                      );
+                      setState(() {
+                        isLoading = false;
+                      });
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
                     }
+                  } else {
+                    // Handle null or non-200 response
+                    SnackBar snackBar = SnackBar(
+                      content: Text('Failed to sign up. Please try again.'),
+                    );
+                    setState(() {
+                      isLoading = false;
+                    });
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
                   }
                 },
                 child: Row(

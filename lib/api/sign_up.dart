@@ -12,16 +12,24 @@ Future<Response?> signUp({
 }) async {
   String urlPost = Init.urlInit + "rider/sign_up.php";
   try {
-    var res = await http.post(Uri.parse(urlPost), headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }, body: {
-      "fullname": fullname,
-      "email": email,
-      "phonenumber": phone,
-      "password": password,
-    });
+    var res = await http.post(
+      Uri.parse(urlPost),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode({
+        "fullname": fullname,
+        "email": email,
+        "phonenumber": phone,
+        "password": password,
+      }),
+    );
 
-    print(jsonDecode(res.body));
+    print("Raw response body: ${res.body}"); // Print raw response
+    print("Response status: ${res.statusCode}"); // Print status code
+
+    var decodedResponse = jsonDecode(res.body);
+    print("Decoded response: $decodedResponse"); // Print decoded response
 
     return res;
   } catch (e) {

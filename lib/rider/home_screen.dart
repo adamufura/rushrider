@@ -28,6 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     // TODO: implement initState
+
     Provider.of<UserProvider>(context, listen: false).getLoggedInUser();
     super.initState();
   }

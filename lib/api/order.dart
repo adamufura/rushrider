@@ -41,6 +41,18 @@ Future getRiderOrderInfo(int id) async {
       Init.urlInit + "rider/orders.php?getRiderOrderInfo=true&id=${id}";
   try {
     var response = await http.get(Uri.parse(urlPost));
+    print(response.body);
+    return json.decode(response.body);
+  } catch (e) {
+    print(e);
+  }
+}
+
+Future getRiderOrderInfoUsingCode(String code) async {
+  String urlPost =
+      Init.urlInit + "rider/orders.php?getRiderOrderInfoCode=true&code=${code}";
+  try {
+    var response = await http.get(Uri.parse(urlPost));
     // print(response.body);
     return json.decode(response.body);
   } catch (e) {
@@ -51,13 +63,15 @@ Future getRiderOrderInfo(int id) async {
 Future setOrderStatus(int id, String status) async {
   String urlPost = Init.urlInit + "rider/orders.php";
   try {
-    var res = await http.post(Uri.parse(urlPost), headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }, body: {
-      "id": id.toString(),
-      "status": status,
-      "setOrderStatus": 'true',
-    });
+    var res = await http.post(Uri.parse(urlPost),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "id": id,
+          "status": status,
+          "setOrderStatus": 'true',
+        }));
 
     print(res.body);
     return json.decode(res.body);
@@ -69,13 +83,15 @@ Future setOrderStatus(int id, String status) async {
 Future setOrderLocation(int id, String location) async {
   String urlPost = Init.urlInit + "rider/orders.php";
   try {
-    var res = await http.post(Uri.parse(urlPost), headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    }, body: {
-      "id": id.toString(),
-      "location": location,
-      "setOrderLocation": 'true',
-    });
+    var res = await http.post(Uri.parse(urlPost),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "id": id.toString(),
+          "location": location,
+          "setOrderLocation": 'true',
+        }));
 
     print(res.body);
     return json.decode(res.body);

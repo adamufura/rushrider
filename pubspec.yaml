@@ -41,8 +41,8 @@ dependencies:
   unicons: ^2.1.1
   provider: ^6.1.2
   shared_preferences: ^2.2.3
-  geolocator: ^12.0.0
-  flutter_map: ^6.1.0
+  flutter_map: ^7.0.1
+  location: ^6.0.2
 
 dev_dependencies:
   flutter_test:
